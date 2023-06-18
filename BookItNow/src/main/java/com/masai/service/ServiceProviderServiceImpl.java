@@ -1,5 +1,7 @@
 package com.masai.service;
 
+import java.util.List;
+
 import com.masai.dao.ServiceProviderDao;
 import com.masai.dao.ServiceProviderDaoImpl;
 import com.masai.entity.ServiceProvider;
@@ -20,6 +22,12 @@ public class ServiceProviderServiceImpl implements ServiceProviderService{
 		ServiceProviderDao spd = new ServiceProviderDaoImpl();
 		spd.loginServiceProvider(username, password);
 		
+	}
+
+	@Override
+	public List<ServiceProvider> viewAllSeviceProvider() throws NoRecordFoundException, SomeThingWentWrongException {
+		ServiceProviderDao spd = new ServiceProviderDaoImpl();
+		return spd.viewAllSeviceProvider();
 	}
 
 }
