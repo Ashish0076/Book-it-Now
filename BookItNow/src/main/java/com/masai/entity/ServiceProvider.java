@@ -1,10 +1,15 @@
 package com.masai.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,14 +20,14 @@ public class ServiceProvider {
 	@Column(name = "provider_id")
 	private Long providerId;
 
+	@Column(name = "name")
+	private String name;
+
 	@Column(name = "username")
 	private String username;
 
 	@Column(name = "password")
 	private String password;
-
-	@Column(name = "name")
-	private String name;
 
 	@Column(name = "phone_number")
 	private String phoneNumber;
@@ -30,27 +35,33 @@ public class ServiceProvider {
 	@Column(name = "address")
 	private String address;
 
-	@Column(name = "description")
-	private String description;
+	@OneToMany(mappedBy = "serviceProvider", fetch = FetchType.EAGER)
+	Set<Appointment> appointments = new HashSet<>();
 
 	public ServiceProvider() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ServiceProvider(String username, String password, String name, String phoneNumber, String address,
-			String description) {
+	public ServiceProvider(String name, String username, String password, String phoneNumber, String address) {
 		super();
+		this.name = name;
 		this.username = username;
 		this.password = password;
-		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
-		this.description = description;
 	}
 
 	public Long getProviderId() {
 		return providerId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getUsername() {
@@ -69,14 +80,6 @@ public class ServiceProvider {
 		this.password = password;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -93,19 +96,19 @@ public class ServiceProvider {
 		this.address = address;
 	}
 
-	public String getDescription() {
-		return description;
+	public Set<Appointment> getAppointments() {
+		return appointments;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setAppointments(Set<Appointment> appointments) {
+		this.appointments = appointments;
 	}
 
 	@Override
 	public String toString() {
-		return "ServiceProvider [providerId=" + providerId + ", username=" + username + ", password=" + password
-				+ ", name=" + name + ", phoneNumber=" + phoneNumber + ", address=" + address + ", description="
-				+ description + "]";
+		return "ServiceProvider [providerId=" + providerId + ", name=" + name + ", username=" + username + ", password="
+				+ password + ", phoneNumber=" + phoneNumber + ", address=" + address + ", appointments=" + appointments
+				+ "]";
 	}
 
 }

@@ -10,4 +10,14 @@ public interface CustomerDao {
 
 	void login(String username, String password) throws SomeThingWentWrongException, NoRecordFoundException ;
 
+	
+
+	
+
 }
+
+//void create(Customer customer);
+//Customer getById(int customerId);
+//List<Customer> getAll();
+//void update(Customer customer);
+//void delete(Customer customer);

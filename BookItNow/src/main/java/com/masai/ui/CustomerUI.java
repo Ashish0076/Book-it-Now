@@ -1,12 +1,20 @@
 package com.masai.ui;
 
+import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
+import com.masai.entity.Appointment;
 import com.masai.entity.Customer;
+import com.masai.entity.ServiceProvider;
 import com.masai.exception.NoRecordFoundException;
 import com.masai.exception.SomeThingWentWrongException;
+import com.masai.service.AppointmentService;
+import com.masai.service.AppointmentServiceImpl;
 import com.masai.service.CustomerService;
 import com.masai.service.CustomerServiceImpl;
+import com.masai.service.ServiceProviderService;
+import com.masai.service.ServiceProviderServiceImpl;
 
 public class CustomerUI {
 
@@ -50,7 +58,7 @@ public class CustomerUI {
 		} while (customerChoice != 0);
 	}
 
-	private static void handleLoggedInCustomerActions(Scanner scanner) {
+	private static void handleLoggedInCustomerActions(Scanner sc) {
 		int customerLoggedInChoice;
 
 		do {
@@ -65,20 +73,17 @@ public class CustomerUI {
 			System.out.println("0. Logout");
 			System.out.println();
 			System.out.print("Please enter your choice: ");
-			customerLoggedInChoice = scanner.nextInt();
+			customerLoggedInChoice = sc.nextInt();
 
 			switch (customerLoggedInChoice) {
 			case 1:
-				// View service provider profiles logic
-				System.out.println("Viewing service provider profiles...");
+				viewAllSeviceProvider();
 				break;
 			case 2:
-				// Book appointment logic
-				System.out.println("Booking an appointment...");
+				bookAppointment(sc);
 				break;
 			case 3:
-				// Cancel appointment logic
-				System.out.println("Canceling an appointment...");
+				cancelAppointment(sc);
 				break;
 			case 4:
 				// Provide feedback and ratings logic
@@ -130,9 +135,54 @@ public class CustomerUI {
 		try {
 			CustomerService customerService = new CustomerServiceImpl();
 			customerService.login(useranme, password);
+			System.out.println("Log In successfully");
 		} catch (NoRecordFoundException | SomeThingWentWrongException ex) {
 			System.out.println(ex.getMessage());
 		}
+	}
+
+	static void viewAllSeviceProvider() {
+		try {
+			ServiceProviderService spService = new ServiceProviderServiceImpl();
+
+			List<ServiceProvider> spList = spService.viewAllSeviceProvider();
+
+			for (int i = 0; i < spList.size(); i++) {
+				ServiceProvider serviceProvider = spList.get(i);
+
+				System.out.println("ServiceProvider name=" + serviceProvider.getName() + ", phoneNumber="
+						+ serviceProvider.getPhoneNumber() + ", address=" + serviceProvider.getAddress());
+
+				Set<Appointment> appSet = serviceProvider.getAppointments();
+				for (Appointment appointment : appSet) {
+					if (appointment.isAvaliable()) {
+						System.out.println("Available appointment id: " + appointment.getAppointmentId() + " Date: "
+								+ appointment.getAppointmentDate() + ", Starts at " + appointment.getStartTime()
+								+ " and Ends at " + appointment.getEndTime());
+					}
+				}
+				System.out.println();
+			}
+		} catch (SomeThingWentWrongException | NoRecordFoundException ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
+
+	static void bookAppointment(Scanner sc) {
+		viewAllSeviceProvider();
+		System.out.println("Enter the appointment id to book");
+		try {
+			AppointmentService appSer = new AppointmentServiceImpl();
+			 Long appId = sc.nextLong();
+			 appSer.bookAppointment(appId);
+             System.out.println("Appointment booked Successfully");
+		}catch (SomeThingWentWrongException ex) {
+	        System.out.println(ex.getMessage());
+	    }
+	}
+	
+	static void cancelAppointment() {
+		
 	}
 
 }

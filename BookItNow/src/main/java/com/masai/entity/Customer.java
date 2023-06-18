@@ -1,10 +1,15 @@
 package com.masai.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -29,9 +34,12 @@ public class Customer {
 
 	@Column(name = "address")
 	private String address;
-	
+
 	@Column(name = "is_deleted", nullable = false)
 	private int isDeleted;
+
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+	Set<Appointment> appointment = new HashSet<>();
 
 	public Customer() {
 		super();
@@ -91,8 +99,6 @@ public class Customer {
 		this.address = address;
 	}
 
-	
-	
 	public int getIsDeleted() {
 		return isDeleted;
 	}
@@ -101,10 +107,21 @@ public class Customer {
 		this.isDeleted = isDeleted;
 	}
 
+	public Set<Appointment> getAppointment() {
+		return appointment;
+	}
+
+	public void setAppointment(Set<Appointment> appointment) {
+		this.appointment = appointment;
+	}
+
 	@Override
 	public String toString() {
 		return "Customer [customerId=" + customerId + ", username=" + username + ", password=" + password + ", name="
-				+ name + ", phoneNumber=" + phoneNumber + ", address=" + address + "]";
+				+ name + ", phoneNumber=" + phoneNumber + ", address=" + address + ", isDeleted=" + isDeleted
+				+ ", appointment=" + appointment + "]";
 	}
+
+	
 
 }

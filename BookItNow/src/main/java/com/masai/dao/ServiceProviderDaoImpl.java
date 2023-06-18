@@ -2,7 +2,9 @@ package com.masai.dao;
 
 import java.util.List;
 
+import com.masai.entity.Appointment;
 import com.masai.entity.LoggedInCustomerId;
+import com.masai.entity.LoggedInServiceProvider;
 import com.masai.entity.ServiceProvider;
 import com.masai.exception.NoRecordFoundException;
 import com.masai.exception.SomeThingWentWrongException;
@@ -59,13 +61,31 @@ EntityManager em = null;
 			if(listInt.size() == 0) {
 				throw new SomeThingWentWrongException("The username or password is incorrect");
 			}
-			LoggedInCustomerId.loggedInUserId = listInt.get(0);
+			LoggedInServiceProvider.loggedInServiceProvoderId = listInt.get(0);
 		}catch(PersistenceException ex) {
 			throw new SomeThingWentWrongException("Unable to process request, try again later");
 		}finally {
 			em.close();
 		}
 		
+	}
+
+	@Override
+	public List<ServiceProvider> viewAllSeviceProvider() throws NoRecordFoundException, SomeThingWentWrongException {
+		EntityManager em = null;
+		List<ServiceProvider> spList = null;
+		try {
+			em = EMUtils.getEntityManager();
+			Query query = em.createQuery("SELECT s FROM ServiceProvider s");
+			spList = query.getResultList();
+			if(spList.size() == 0)
+				throw new NoRecordFoundException("No Customer Found");
+		}catch(PersistenceException ex) {
+			throw new SomeThingWentWrongException("Unable to process request, try again later");
+		}finally{
+			em.close();
+		}
+		return spList;
 	}
 
 }

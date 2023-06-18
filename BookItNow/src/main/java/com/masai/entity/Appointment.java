@@ -2,9 +2,11 @@ package com.masai.entity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,17 +22,13 @@ public class Appointment {
 	@Column(name = "appointment_id")
 	private Long appointmentId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "provider_id")
 	private ServiceProvider serviceProvider;
-
-	@ManyToOne
-	@JoinColumn(name = "service_id")
-	private Service service;
 
 	@Column(name = "appointment_date")
 	private LocalDate appointmentDate;
@@ -40,19 +38,21 @@ public class Appointment {
 
 	@Column(name = "end_time")
 	private LocalTime endTime;
+	
+	@Column(name = "is_Avaliable")
+	private boolean isAvaliable;
 
-	// Constructors
 	public Appointment() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public Appointment(Customer customer, ServiceProvider serviceProvider, Service service, LocalDate appointmentDate,
-			LocalTime startTime, LocalTime endTime) {
-		this.customer = customer;
-		this.serviceProvider = serviceProvider;
-		this.service = service;
+	public Appointment(LocalDate appointmentDate,
+			LocalTime startTime, LocalTime endTime, boolean isAvaliable) {
 		this.appointmentDate = appointmentDate;
 		this.startTime = startTime;
 		this.endTime = endTime;
+		this.isAvaliable =isAvaliable;
 	}
 
 	public Long getAppointmentId() {
@@ -73,14 +73,6 @@ public class Appointment {
 
 	public void setServiceProvider(ServiceProvider serviceProvider) {
 		this.serviceProvider = serviceProvider;
-	}
-
-	public Service getService() {
-		return service;
-	}
-
-	public void setService(Service service) {
-		this.service = service;
 	}
 
 	public LocalDate getAppointmentDate() {
@@ -107,11 +99,38 @@ public class Appointment {
 		this.endTime = endTime;
 	}
 
+	public boolean isAvaliable() {
+		return isAvaliable;
+	}
+
+	public void setAvaliable(boolean isAvaliable) {
+		this.isAvaliable = isAvaliable;
+	}
+
 	@Override
 	public String toString() {
 		return "Appointment [appointmentId=" + appointmentId + ", customer=" + customer + ", serviceProvider="
-				+ serviceProvider + ", service=" + service + ", appointmentDate=" + appointmentDate + ", startTime="
+				+ serviceProvider + ", appointmentDate=" + appointmentDate + ", startTime="
 				+ startTime + ", endTime=" + endTime + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(appointmentId);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Appointment other = (Appointment) obj;
+		return Objects.equals(appointmentId, other.appointmentId);
+	}
+	
+	
 	
 }
