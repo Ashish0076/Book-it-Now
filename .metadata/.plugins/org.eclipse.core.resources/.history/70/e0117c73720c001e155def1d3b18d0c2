@@ -1,0 +1,30 @@
+package com.masai.dao;
+
+import com.masai.entity.Service;
+import com.masai.utility.EMUtils;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
+
+public class ServiceImpl implements Services{
+
+	@Override
+	public void addService(Service s) {
+		EntityManager em = null;
+		EntityTransaction et = null;
+		
+		try {
+		    em =  EMUtils.getEntityManager();
+		    et = em.getTransaction();
+		    
+		    //Service s1 = new Service("a", "a", new com.masai.entity.ServiceProvider());
+		    
+		    
+		}catch(IllegalArgumentException | IllegalStateException | PersistenceException ex) {
+			System.out.println(ex.getMessage());
+		}
+		
+	}
+
+}

@@ -1,0 +1,11 @@
+package com.masai.dao;
+
+import com.masai.exception.NoRecordFoundException;
+import com.masai.exception.SomeThingWentWrongException;
+
+public interface FeedbackDao {
+
+	void giveFeedback(Long appId, int rating, String cmt) throws SomeThingWentWrongException, NoRecordFoundException;
+
+}
+

@@ -1,0 +1,8 @@
+package com.masai.dao;
+
+import com.masai.entity.Service;
+
+public interface ServiceProvider {
+
+	public void addService(Service s);
+}

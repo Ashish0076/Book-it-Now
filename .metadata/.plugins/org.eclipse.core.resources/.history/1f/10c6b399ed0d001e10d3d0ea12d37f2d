@@ -1,0 +1,173 @@
+package com.masai.dao;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
+import com.masai.entity.Appointment;
+import com.masai.entity.Customer;
+import com.masai.entity.LoggedInCustomerId;
+import com.masai.entity.LoggedInServiceProvider;
+import com.masai.entity.ServiceProvider;
+import com.masai.exception.NoRecordFoundException;
+import com.masai.exception.SomeThingWentWrongException;
+import com.masai.utility.EMUtils;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.Query;
+
+public class AppointmentDaoImpl implements AppointmentDao {
+
+	@Override
+	public void openAppointmentSlot(Appointment appointment) throws SomeThingWentWrongException {
+		EntityManager em = null;
+		EntityTransaction et = null;
+
+		try {
+			em = EMUtils.getEntityManager();
+			Query query = em.createQuery("SELECT s FROM ServiceProvider s WHERE s.providerId = :id");
+			query.setParameter("id", LoggedInServiceProvider.loggedInServiceProvoderId);
+			ServiceProvider sp = (ServiceProvider) query.getSingleResult();
+			appointment.setServiceProvider(sp);
+			et = em.getTransaction();
+			et.begin();
+			em.persist(appointment);
+			et.commit();
+		} catch (PersistenceException ex) {
+			et.rollback();
+			throw new SomeThingWentWrongException("Unable to process request, try again later");
+		} finally {
+			em.close();
+		}
+		
+	}
+
+	@Override
+	public List<Appointment> viewAppointmentSlots() throws SomeThingWentWrongException, NoRecordFoundException {
+		EntityManager em = null;
+		List<Appointment> appointmentList = null;
+		try {
+			em = EMUtils.getEntityManager();
+			Query query = em.createQuery("SELECT a FROM Appointment a WHERE a.isAvaliable = true AND a.serviceProvider.providerId = :id");
+			query.setParameter("id", LoggedInServiceProvider.loggedInServiceProvoderId);
+			appointmentList = (List<Appointment>)query.getResultList();
+			if(appointmentList.size() ==0) {
+				throw new NoRecordFoundException("No Appointment Found");
+			}
+		}catch(IllegalArgumentException ex) {
+			throw new SomeThingWentWrongException("Unable to process request, try again later");
+		}finally{
+			em.close();
+		}
+		return appointmentList;		
+	}
+
+	@Override
+	public void updateAppointSlot(Long appId, LocalDate date, LocalTime startTime, LocalTime endTime)
+			throws SomeThingWentWrongException, NoRecordFoundException {
+		EntityManager em = null;
+		try {
+			em = EMUtils.getEntityManager();
+			Appointment appointment = em.find(Appointment.class, appId);
+			if(appointment == null) {
+				throw new NoRecordFoundException("No Company found with the given id " + appId);
+			}
+			
+			EntityTransaction et = em.getTransaction();
+			et.begin();
+			appointment.setAppointmentDate(date);
+			appointment.setStartTime(startTime);
+			appointment.setEndTime(endTime);
+			et.commit();
+		}catch(PersistenceException ex) {
+			throw new SomeThingWentWrongException("Unable to process request, try again later");
+		}finally{
+			em.close();
+		}
+		
+	}
+
+	@Override
+	public boolean checkForAppointment(Long appId) throws SomeThingWentWrongException, NoRecordFoundException{
+		EntityManager em = null;
+		try {
+			em = EMUtils.getEntityManager();
+			Appointment appointment = em.find(Appointment.class, appId);
+			if(appointment == null) {
+				return false;
+			}
+			return true;
+		}catch(PersistenceException ex) {
+			throw new SomeThingWentWrongException("Unable to process request, try again later");
+		}finally{
+			em.close();
+		}
+	}
+
+	@Override
+	public void deleteAppointmentSlot(Long appId) throws SomeThingWentWrongException, NoRecordFoundException {
+		EntityManager em = null;
+		try {
+			em = EMUtils.getEntityManager();
+			Appointment appointment = em.find(Appointment.class, appId);
+			if(appointment==null) {
+				throw new NoRecordFoundException("No Appointment slot found with the given id " + appId);
+			}
+			EntityTransaction et = em.getTransaction();
+			et.begin();
+			appointment.setAvaliable(false);
+			et.commit();
+		}catch(PersistenceException ex) {
+			throw new SomeThingWentWrongException("Unable to process request, try again later");
+		}finally{
+			em.close();
+		}		
+	}
+
+	@Override
+	public void bookAppointment(Long appId) throws SomeThingWentWrongException {	
+		EntityManager em = null;
+		EntityTransaction et = null;
+
+		try {
+			em = EMUtils.getEntityManager();
+			Customer customer = em.find(Customer.class, LoggedInCustomerId.loggedInUserId);
+			Query query = em.createQuery("SELECT a FROM Appointment a WHERE a.appointmentId = :id");
+			query.setParameter("id", appId);
+			Appointment ap = (Appointment) query.getSingleResult();
+			ap.setCustomer(customer);
+			et = em.getTransaction();
+			et.begin();
+			em.persist(ap);
+			et.commit();
+		} catch (PersistenceException ex) {
+			et.rollback();
+			throw new SomeThingWentWrongException("Unable to process request, try again later");
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public List<Appointment> viewBookedAppointments() throws SomeThingWentWrongException, NoRecordFoundException {
+		EntityManager em = null;
+		List<Appointment> appointmentList = null;
+		try {
+			em = EMUtils.getEntityManager();
+			Query query = em.createQuery("SELECT a FROM Appointment a WHERE a.customer =:cusId");
+			query.setParameter("cusId", LoggedInCustomerId.loggedInUserId);
+			appointmentList = (List<Appointment>)query.getResultList();
+			if(appointmentList.size() ==0) {
+				throw new NoRecordFoundException("No Appointment Found");
+			}
+		}catch(IllegalArgumentException ex) {
+			throw new SomeThingWentWrongException("Unable to process request, try again later");
+		}finally{
+			em.close();
+		}
+		return appointmentList;	
+	}
+
+}

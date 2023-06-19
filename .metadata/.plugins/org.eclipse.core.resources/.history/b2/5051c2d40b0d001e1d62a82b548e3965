@@ -1,0 +1,12 @@
+package com.masai.dao;
+
+public interface ServiceDao {
+
+}
+
+//    void create(Service service);
+//    Service getById(int serviceId);
+//    List<Service> getAll();
+//    void update(Service service);
+//    void delete(Service service);
+

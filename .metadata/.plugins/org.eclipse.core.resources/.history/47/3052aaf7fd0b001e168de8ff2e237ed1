@@ -1,0 +1,10 @@
+package com.masai.dao;
+
+import com.masai.exception.SomeThingWentWrongException;
+import com.masai.utility.Customer;
+
+public interface CustomerDao {
+
+	void addCustomer(Customer customer) throws SomeThingWentWrongException;
+
+}

@@ -1,0 +1,47 @@
+package com.masai.service;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
+import com.masai.dao.AppointmentDao;
+import com.masai.dao.AppointmentDaoImpl;
+import com.masai.entity.Appointment;
+import com.masai.exception.NoRecordFoundException;
+import com.masai.exception.SomeThingWentWrongException;
+
+public class AppointmentServiceImpl implements AppointmentService {
+
+	@Override
+	public void openAppointmentSlot(Appointment appointment) throws SomeThingWentWrongException {
+			AppointmentDao appDao = new AppointmentDaoImpl();
+			appDao.openAppointmentSlot(appointment);		
+	}
+
+	@Override
+	public List<Appointment> viewAppointmentSlots() throws SomeThingWentWrongException, NoRecordFoundException {
+		AppointmentDao appDao = new AppointmentDaoImpl();
+		return appDao.viewAppointmentSlots();				
+	}
+
+	@Override
+	public void updateAppointSlot(Long appId, LocalDate date, LocalTime startTime, LocalTime endTime)
+			throws SomeThingWentWrongException, NoRecordFoundException {
+		AppointmentDao appDao = new AppointmentDaoImpl();
+		appDao.updateAppointSlot( appId,  date,  startTime,  endTime);
+		
+	}
+
+	@Override
+	public boolean checkForAppointment(Long appId) throws SomeThingWentWrongException, NoRecordFoundException {
+		AppointmentDao appDao = new AppointmentDaoImpl();
+		return appDao.checkForAppointment( appId);
+	}
+
+	@Override
+	public void deleteAppointmentSlot(Long appId) throws SomeThingWentWrongException, NoRecordFoundException {
+		AppointmentDao appDao = new AppointmentDaoImpl();
+		appDao.openAppointmentSlot( appId);		
+	}
+
+}

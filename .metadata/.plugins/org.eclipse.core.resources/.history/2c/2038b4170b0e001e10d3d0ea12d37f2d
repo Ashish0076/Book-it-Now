@@ -1,0 +1,41 @@
+package com.masai.dao;
+
+import com.masai.entity.Appointment;
+import com.masai.entity.Feedback;
+import com.masai.entity.LoggedInServiceProvider;
+import com.masai.entity.ServiceProvider;
+import com.masai.exception.NoRecordFoundException;
+import com.masai.exception.SomeThingWentWrongException;
+import com.masai.utility.EMUtils;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.Query;
+
+public class FeedbackDaoImpl implements FeedbackDao {
+
+	@Override
+	public void giveFeedback(Long appId, int rating, String cmt)
+			throws SomeThingWentWrongException, NoRecordFoundException {
+		EntityManager em = null;
+		EntityTransaction et = null;
+
+		try {
+			em = EMUtils.getEntityManager();
+			Appointment app = em.find(Appointment.class, appId);
+			Feedback fb = new Feedback(app, rating, cmt);
+			fb.setAppointment(app);
+			et = em.getTransaction();
+			et.begin();
+			em.persist(fb);
+			et.commit();
+		} catch (PersistenceException ex) {
+			et.rollback();
+			throw new SomeThingWentWrongException("Unable to process request, try again later");
+		} finally {
+			em.close();
+		}
+	}
+
+}

@@ -1,0 +1,10 @@
+package com.masai.service;
+
+import com.masai.entity.Appointment;
+import com.masai.exception.SomeThingWentWrongException;
+
+public interface AppointmentService {
+
+	void openAppointmentSlot(Appointment appointment) throws SomeThingWentWrongException;
+
+}

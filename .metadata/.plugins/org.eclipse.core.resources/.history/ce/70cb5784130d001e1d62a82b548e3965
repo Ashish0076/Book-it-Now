@@ -1,0 +1,14 @@
+package com.masai.dao;
+
+public interface AppointmentDao {
+
+}
+
+
+
+//    void create(Appointment appointment);
+//    Appointment getById(int appointmentId);
+//    List<Appointment> getAll();
+//    void update(Appointment appointment);
+//    void delete(Appointment appointment);
+

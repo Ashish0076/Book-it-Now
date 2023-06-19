@@ -1,0 +1,15 @@
+package com.masai.service;
+
+import com.masai.exception.NoRecordFoundException;
+import com.masai.exception.SomeThingWentWrongException;
+
+public class FeedbackServiceImpl implements FeedbackService {
+
+	@Override
+	public void giveFeedback(Long appId, int rating, String cmt)
+			throws SomeThingWentWrongException, NoRecordFoundException {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

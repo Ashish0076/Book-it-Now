@@ -1,0 +1,30 @@
+package com.masai.dao;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
+import com.masai.entity.Appointment;
+import com.masai.exception.NoRecordFoundException;
+import com.masai.exception.SomeThingWentWrongException;
+
+public interface AppointmentDao {
+
+
+	void openAppointmentSlot(Appointment appointment) throws SomeThingWentWrongException ;
+
+	List<Appointment> viewAppointmentSlots() throws SomeThingWentWrongException, NoRecordFoundException;
+
+	void updateAppointSlot(Long appId, LocalDate date, LocalTime startTime, LocalTime endTime) throws SomeThingWentWrongException, NoRecordFoundException;
+
+	boolean checkForAppointment(Long appId) throws SomeThingWentWrongException, NoRecordFoundException;
+
+	void deleteAppointmentSlot(Long appId) throws SomeThingWentWrongException, NoRecordFoundException;
+
+	void bookAppointment(Long appId) throws SomeThingWentWrongException;
+
+	List<Appointment> viewBookedAppointments() throws SomeThingWentWrongException, NoRecordFoundException;
+
+}
+
+

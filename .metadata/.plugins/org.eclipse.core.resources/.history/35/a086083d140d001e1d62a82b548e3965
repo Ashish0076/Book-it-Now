@@ -1,0 +1,20 @@
+package com.masai.dao;
+
+import com.masai.entity.Appointment;
+import com.masai.exception.SomeThingWentWrongException;
+
+public interface AppointmentDao {
+
+
+	void openAppointmentSlot(Appointment appointment) throws SomeThingWentWrongException ;
+
+}
+
+
+
+//    void create(Appointment appointment);
+//    Appointment getById(int appointmentId);
+//    List<Appointment> getAll();
+//    void update(Appointment appointment);
+//    void delete(Appointment appointment);
+

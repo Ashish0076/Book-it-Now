@@ -1,0 +1,42 @@
+package com.masai.dao;
+
+import com.masai.entity.Customer;
+import com.masai.exception.SomeThingWentWrongException;
+import com.masai.utility.EMUtils;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.Query;
+
+public class CustomerDaoImpl implements CustomerDao {
+
+	@Override
+	public void addCustomer(Customer customer) throws SomeThingWentWrongException {
+		EntityManager em = null;
+		EntityTransaction et = null;
+		
+		try {
+			em = EMUtils.getEntityManager();
+			
+			//checking if company with same username exists
+			String q = "SELECT count(c) FROM Customer c WHERE username =:username";
+			Query query = em.createQuery(q);
+			query.setParameter("username", customer.getUseranme());
+			if((int)query.getSingleResult()>0) {
+				throw new SomeThingWentWrongException("Customer already exists with name " + customer.getName());
+			}
+			
+			et = em.getTransaction();
+			et.begin();
+			em.persist(customer);
+			et.commit();
+		}catch(PersistenceException ex) {
+			et.rollback();
+			throw new SomeThingWentWrongException("Unable to process request, try again later");
+		}finally{
+			em.close();
+		}
+	}
+
+}

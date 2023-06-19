@@ -1,0 +1,20 @@
+package com.masai.service;
+
+import com.masai.dao.AppointmentDao;
+import com.masai.dao.AppointmentDaoImpl;
+import com.masai.entity.Appointment;
+import com.masai.exception.SomeThingWentWrongException;
+
+public class AppointmentServiceImpl implements AppointmentService {
+
+	@Override
+	public void openAppointmentSlot(Appointment appointment) throws SomeThingWentWrongException {
+		try {
+			AppointmentDao appDao = new AppointmentDaoImpl();
+			appDao.openAppointmentSlot(appointment);
+		}
+		
+		
+	}
+
+}

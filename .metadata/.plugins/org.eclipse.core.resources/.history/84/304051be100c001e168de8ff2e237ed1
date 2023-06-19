@@ -1,0 +1,10 @@
+package com.masai.service;
+
+import com.masai.entity.Customer;
+import com.masai.exception.SomeThingWentWrongException;
+
+public interface CustomerService {
+
+	void addCustomer(Customer customer) throws SomeThingWentWrongException;
+
+}

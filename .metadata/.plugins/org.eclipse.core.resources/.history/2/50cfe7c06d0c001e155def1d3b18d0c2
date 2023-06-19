@@ -1,0 +1,234 @@
+package com.masai.ui;
+
+import java.util.Scanner;
+
+
+public class App {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        do {
+        	 System.out.println("===============================");
+             System.out.println("    Appointment Scheduling");
+             System.out.println("===============================");
+             System.out.println();
+             System.out.println("1. Customer/Client");
+             System.out.println("2. Service Provider");
+             System.out.println("0. Exit");
+             System.out.println();
+             System.out.print("Please enter your choice: ");
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    handleCustomerActions(scanner);
+                    break;
+                case 2:
+                    handleServiceProviderActions(scanner);
+                    break;
+                case 0:
+                    System.out.println("Exiting the system...");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+
+        } while (choice != 0);
+
+        scanner.close();
+    }
+
+
+    private static void handleCustomerActions(Scanner scanner) {
+        int customerChoice;
+        boolean loggedIn = false;
+
+        do {
+            displayCustomerMenu();
+            customerChoice = scanner.nextInt();
+
+            switch (customerChoice) {
+                case 1:
+                    // Register logic
+                    System.out.println("Registering a new customer...");
+                    break;
+                case 2:
+                    // Login logic
+                    System.out.println("Logging in as a customer...");
+                    loggedIn = true;
+                    break;
+                case 3:
+                    // Exit logic
+                    System.out.println("Exiting customer menu...");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+
+            if (loggedIn) {
+                handleLoggedInCustomerActions(scanner);
+                loggedIn = false;
+            }
+
+        } while (customerChoice != 3);
+    }
+
+    private static void handleLoggedInCustomerActions(Scanner scanner) {
+        int customerLoggedInChoice;
+
+        do {
+            displayLoggedInCustomerMenu();
+            customerLoggedInChoice = scanner.nextInt();
+
+            switch (customerLoggedInChoice) {
+                case 1:
+                    // View service provider profiles logic
+                    System.out.println("Viewing service provider profiles...");
+                    break;
+                case 2:
+                    // Book appointment logic
+                    System.out.println("Booking an appointment...");
+                    break;
+                case 3:
+                    // Cancel appointment logic
+                    System.out.println("Canceling an appointment...");
+                    break;
+                case 4:
+                    // Provide feedback and ratings logic
+                    System.out.println("Providing feedback and ratings...");
+                    break;
+                case 5:
+                    // Logout logic
+                    System.out.println("Logging out as a customer...");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+
+        } while (customerLoggedInChoice != 5);
+    }
+
+    private static void displayCustomerMenu() {
+        System.out.println("===============================");
+        System.out.println("    Appointment Scheduling");
+        System.out.println("===============================");
+        System.out.println();
+        System.out.println("1. Register");
+        System.out.println("2. Login");
+        System.out.println("3. Exit");
+        System.out.println();
+        System.out.print("Please enter your choice: ");
+    }
+
+    private static void displayLoggedInCustomerMenu() {
+        System.out.println("===============================");
+        System.out.println("    Appointment Scheduling");
+        System.out.println("===============================");
+        System.out.println();
+        System.out.println("1. View Service Provider Profiles");
+        System.out.println("2. Book Appointment");
+        System.out.println("3. Cancel Appointment");
+        System.out.println("4. Provide Feedback and Ratings");
+        System.out.println("5. Logout");
+        System.out.println();
+        System.out.print("Please enter your choice: ");
+    }
+
+    private static void handleServiceProviderActions(Scanner scanner) {
+        int serviceProviderChoice;
+        boolean loggedIn = false;
+
+        do {
+            displayServiceProviderMenu();
+            serviceProviderChoice = scanner.nextInt();
+
+            switch (serviceProviderChoice) {
+                case 1:
+                   //logic
+                    System.out.println("Registering a new service provider...");
+                    break;
+                case 2:
+                    // Login logic
+                    System.out.println("Logging in as a service provider...");
+                    loggedIn = true;
+                    break;
+                case 3:
+                    // Exit logic
+                    System.out.println("Exiting service provider menu...");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+
+            if (loggedIn) {
+                handleLoggedInServiceProviderActions(scanner);
+                loggedIn = false;
+            }
+
+        } while (serviceProviderChoice != 3);
+    }
+
+    private static void handleLoggedInServiceProviderActions(Scanner scanner) {
+        int serviceProviderLoggedInChoice;
+
+        do {
+            displayLoggedInServiceProviderMenu();
+            serviceProviderLoggedInChoice = scanner.nextInt();
+
+            switch (serviceProviderLoggedInChoice) {
+                case 1:
+                    // Set up availability logic
+                    System.out.println("Setting up availability...");
+                    break;
+                case 2:
+                    // View appointment details logic
+                    System.out.println("Viewing appointment details...");
+                    break;
+                case 3:
+                    // Open appointment slots logic
+                    System.out.println("Opening appointment slots...");
+                    break;
+                case 4:
+                    // Logout logic
+                    System.out.println("Logging out as a service provider...");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+
+        } while (serviceProviderLoggedInChoice != 4);
+    }
+
+    private static void displayServiceProviderMenu() {
+        System.out.println("===============================");
+        System.out.println("    Appointment Scheduling");
+        System.out.println("===============================");
+        System.out.println();
+        System.out.println("1. Register");
+        System.out.println("2. Login");
+        System.out.println("3. Exit");
+        System.out.println();
+        System.out.print("Please enter your choice: ");
+    }
+
+    private static void displayLoggedInServiceProviderMenu() {
+        System.out.println("===============================");
+        System.out.println("    Appointment Scheduling");
+        System.out.println("===============================");
+        System.out.println();
+        System.out.println("1. Set up Availability");
+        System.out.println("2. View Appointment Details");
+        System.out.println("3. Open Appointment Slots");
+        System.out.println("4. Logout");
+        System.out.println();
+        System.out.print("Please enter your choice: ");
+    }
+}
+

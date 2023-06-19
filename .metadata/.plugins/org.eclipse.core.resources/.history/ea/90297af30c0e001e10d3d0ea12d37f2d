@@ -1,0 +1,17 @@
+package com.masai.service;
+
+import com.masai.dao.FeedbackDao;
+import com.masai.dao.FeedbackDaoImpl;
+import com.masai.exception.NoRecordFoundException;
+import com.masai.exception.SomeThingWentWrongException;
+
+public class FeedbackServiceImpl implements FeedbackService {
+
+	@Override
+	public void giveFeedback(Long appId, int rating, String cmt)
+			throws SomeThingWentWrongException, NoRecordFoundException {
+		FeedbackDao fb = new FeedbackDaoImpl();
+		fb.giveFeedback( appId,  rating,  cmt);
+	}
+
+}
