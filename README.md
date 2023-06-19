@@ -1,10 +1,13 @@
-# Online Appointment Scheduling System (Book it Now)
+# **Online Appointment Scheduling System (Book it Now)** <img src="https://github.com/Ashish0076/plastic-sea-7134/assets/115460698/a8a81749-c0f2-4286-99f7-767137479667" width="50" height="50">
 
 This is a console-based application called "Online Appointment Scheduling System" (Book it Now) designed to simplify the process of scheduling appointments between customers and service providers. The system aims to provide a convenient and efficient platform for managing appointments, reducing scheduling conflicts, and enhancing customer satisfaction. It is developed using Java programming language, MySQL as the database management system, and Hibernate as the Object-Relational Mapping (ORM) framework.
 
 ## Domain Description
 
 The Online Appointment Scheduling System allows customers/clients and service providers to interact and schedule appointments seamlessly. Customers can register for an account, browse service provider profiles, select suitable appointment slots, book appointments, provide feedback, and manage their appointments. Service providers can register for an account, set up their availability, view appointment details, open available slots for booking, and manage their appointments.
+
+## ER diagram
+![Bookitnow_ER](https://github.com/Ashish0076/plastic-sea-7134/assets/115460698/90225e82-dbe2-4919-a888-acef1d2f9906)
 
 ## Types of Users
 
