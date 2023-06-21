@@ -31,7 +31,7 @@ public class ServiceProviderDaoImpl implements ServiceProviderDao {
 			query.setParameter("username", sp.getUsername());
 			if ((Long) query.getSingleResult() > 0) {
 				throw new SomeThingWentWrongException(
-						"Customer already exists with name " + sp.getName() + ", try with different username");
+						"Customer already exists with username " + sp.getUsername() + ", try with different username");
 			}
 
 			et = em.getTransaction();

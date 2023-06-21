@@ -38,21 +38,25 @@ public class Appointment {
 
 	@Column(name = "end_time")
 	private LocalTime endTime;
-	
+
 	@Column(name = "is_Avaliable")
 	private boolean isAvaliable;
+
+	@Column(name = "price")
+	private int price;
 
 	public Appointment() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Appointment(LocalDate appointmentDate,
-			LocalTime startTime, LocalTime endTime, boolean isAvaliable) {
+	public Appointment(LocalDate appointmentDate, LocalTime startTime, LocalTime endTime, int price,
+			boolean isAvaliable) {
 		this.appointmentDate = appointmentDate;
 		this.startTime = startTime;
 		this.endTime = endTime;
-		this.isAvaliable =isAvaliable;
+		this.price = price;
+		this.isAvaliable = isAvaliable;
 	}
 
 	public Long getAppointmentId() {
@@ -107,11 +111,18 @@ public class Appointment {
 		this.isAvaliable = isAvaliable;
 	}
 
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
 	@Override
 	public String toString() {
-		return "Appointment [appointmentId=" + appointmentId + ", customer=" + customer + ", serviceProvider="
-				+ serviceProvider + ", appointmentDate=" + appointmentDate + ", startTime="
-				+ startTime + ", endTime=" + endTime + "]";
+		return "Appointment [appointmentDate=" + appointmentDate + ", startTime=" + startTime + ", endTime=" + endTime
+				+ ", isAvaliable=" + isAvaliable + ", price=" + price + "]";
 	}
 
 	@Override
@@ -130,7 +141,5 @@ public class Appointment {
 		Appointment other = (Appointment) obj;
 		return Objects.equals(appointmentId, other.appointmentId);
 	}
-	
-	
-	
+
 }

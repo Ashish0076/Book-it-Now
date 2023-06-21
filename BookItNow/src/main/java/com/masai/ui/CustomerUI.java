@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.masai.entity.Appointment;
 import com.masai.entity.Customer;
+import com.masai.entity.LoggedInCustomerId;
 import com.masai.entity.ServiceProvider;
 import com.masai.exception.NoRecordFoundException;
 import com.masai.exception.SomeThingWentWrongException;
@@ -13,15 +14,17 @@ import com.masai.service.AppointmentService;
 import com.masai.service.AppointmentServiceImpl;
 import com.masai.service.CustomerService;
 import com.masai.service.CustomerServiceImpl;
+import com.masai.service.FeedbackService;
+import com.masai.service.FeedbackServiceImpl;
 import com.masai.service.ServiceProviderService;
 import com.masai.service.ServiceProviderServiceImpl;
 
 public class CustomerUI {
 
+	static boolean loggedIn = false;;
+
 	static void handleCustomerActions(Scanner sc) {
 		int customerChoice;
-		boolean loggedIn = false;
-
 		do {
 			System.out.println("===============================");
 			System.out.println("    Appointment Scheduling");
@@ -40,7 +43,6 @@ public class CustomerUI {
 				break;
 			case 2:
 				customerLogIn(sc);
-				loggedIn = true;
 				break;
 			case 0:
 				System.out.println("Exiting customer menu...");
@@ -68,8 +70,9 @@ public class CustomerUI {
 			System.out.println();
 			System.out.println("1. View Service Provider Profiles");
 			System.out.println("2. Book Appointment");
-			System.out.println("3. Cancel Appointment");
-			System.out.println("4. Provide Feedback and Ratings");
+			System.out.println("3. View Booked Appointment");
+			System.out.println("4. Cancel Appointment");
+			System.out.println("5. Provide Feedback and Ratings");
 			System.out.println("0. Logout");
 			System.out.println();
 			System.out.print("Please enter your choice: ");
@@ -83,15 +86,17 @@ public class CustomerUI {
 				bookAppointment(sc);
 				break;
 			case 3:
-				cancelAppointment(sc);
+				viewBookedAppointment();
 				break;
 			case 4:
-				// Provide feedback and ratings logic
-				System.out.println("Providing feedback and ratings...");
+				cancelAppointment(sc);
+				break;
+			case 5:
+			    giveFeedback(sc);
 				break;
 			case 0:
-				// Logout logic
-				System.out.println("Logging out as a customer...");
+				LoggedInCustomerId.loggedInUserId = -1;
+				System.out.println("Logged out Successfully");
 				break;
 			default:
 				System.out.println("Invalid choice. Please try again.");
@@ -106,6 +111,7 @@ public class CustomerUI {
 	static void customerRegistration(Scanner sc) {
 		System.out.print("Enter name ");
 		String name = sc.next();
+		sc.nextLine();
 		System.out.print("Enter useranme ");
 		String username = sc.next();
 		System.out.print("Enter password ");
@@ -114,8 +120,9 @@ public class CustomerUI {
 		String phone = sc.next();
 		System.out.print("Enter address ");
 		String address = sc.next();
+		sc.nextLine();
 
-		Customer customer = new Customer(name, username, password, phone, address);
+		Customer customer = new Customer(username, password, name, phone, address);
 
 		try {
 			CustomerService customerService = new CustomerServiceImpl();
@@ -136,7 +143,9 @@ public class CustomerUI {
 			CustomerService customerService = new CustomerServiceImpl();
 			customerService.login(useranme, password);
 			System.out.println("Log In successfully");
+			loggedIn = true;
 		} catch (NoRecordFoundException | SomeThingWentWrongException ex) {
+			loggedIn = false;
 			System.out.println(ex.getMessage());
 		}
 	}
@@ -150,15 +159,15 @@ public class CustomerUI {
 			for (int i = 0; i < spList.size(); i++) {
 				ServiceProvider serviceProvider = spList.get(i);
 
-				System.out.println("ServiceProvider name=" + serviceProvider.getName() + ", phoneNumber="
-						+ serviceProvider.getPhoneNumber() + ", address=" + serviceProvider.getAddress());
+				System.out.println("Service name=" + serviceProvider.getServiceName() + ", phoneNumber="
+						+ serviceProvider.getPhoneNumber() + ", description=" + serviceProvider.getDescription());
 
 				Set<Appointment> appSet = serviceProvider.getAppointments();
 				for (Appointment appointment : appSet) {
 					if (appointment.isAvaliable()) {
-						System.out.println("Available appointment id: " + appointment.getAppointmentId() + " Date: "
-								+ appointment.getAppointmentDate() + ", Starts at " + appointment.getStartTime()
-								+ " and Ends at " + appointment.getEndTime());
+						System.out.println("Available appointment id: " + appointment.getAppointmentId() + ", price: "
+								+ appointment.getPrice() + " Date: " + appointment.getAppointmentDate() + ", Starts at "
+								+ appointment.getStartTime() + " and Ends at " + appointment.getEndTime());
 					}
 				}
 				System.out.println();
@@ -169,20 +178,103 @@ public class CustomerUI {
 	}
 
 	static void bookAppointment(Scanner sc) {
-		viewAllSeviceProvider();
-		System.out.println("Enter the appointment id to book");
+		try {
+			// view appointments
+			ServiceProviderService spService = new ServiceProviderServiceImpl();
+
+			List<ServiceProvider> spList = spService.viewAllSeviceProvider();
+
+			for (int i = 0; i < spList.size(); i++) {
+				ServiceProvider serviceProvider = spList.get(i);
+
+				System.out.println("Service name=" + serviceProvider.getServiceName() + ", phoneNumber="
+						+ serviceProvider.getPhoneNumber() + ", description=" + serviceProvider.getDescription());
+
+				Set<Appointment> appSet = serviceProvider.getAppointments();
+				for (Appointment appointment : appSet) {
+					if (appointment.isAvaliable()) {
+						System.out.println("Available appointment id: " + appointment.getAppointmentId() + ", price: "
+								+ appointment.getPrice() + " Date: " + appointment.getAppointmentDate() + ", Starts at "
+								+ appointment.getStartTime() + " and Ends at " + appointment.getEndTime());
+					}
+				}
+				System.out.println();
+			}
+
+			// book appointment
+			AppointmentService appSer = new AppointmentServiceImpl();
+			System.out.println("Enter the appointment id to book");
+			Long appId = sc.nextLong();
+			appSer.bookAppointment(appId);
+			System.out.println("Appointment booked Successfully");
+		} catch (SomeThingWentWrongException | NoRecordFoundException ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
+
+	static void cancelAppointment(Scanner sc) {
+		try {
+			// printBookedAppointments
+			AppointmentService appSer = new AppointmentServiceImpl();
+			List<Appointment> appList = appSer.viewBookedAppointments();
+			for (Appointment appointment : appList) {
+				System.out.println("Available appointment id: " + appointment.getAppointmentId() + ", price: "
+						+ appointment.getPrice() + " Date: " + appointment.getAppointmentDate() + ", Starts at "
+						+ appointment.getStartTime() + " and Ends at " + appointment.getEndTime());
+			}
+
+			// cancel appointment
+			System.out.println("Enter the appointment id");
+			Long appId = sc.nextLong();
+			appSer.cancelAppointment(appId);
+			System.out.println("Appointment Canceled Successfully");
+		} catch (SomeThingWentWrongException | NoRecordFoundException ex) {
+			System.out.println(ex.getMessage());
+		}
+
+	}
+
+	static void viewBookedAppointment() {
 		try {
 			AppointmentService appSer = new AppointmentServiceImpl();
-			 Long appId = sc.nextLong();
-			 appSer.bookAppointment(appId);
-             System.out.println("Appointment booked Successfully");
-		}catch (SomeThingWentWrongException ex) {
-	        System.out.println(ex.getMessage());
-	    }
+			List<Appointment> appList = appSer.viewBookedAppointments();
+			for (Appointment appointment : appList) {
+				System.out.println("Available appointment id: " + appointment.getAppointmentId() + ", price: "
+						+ appointment.getPrice() + " Date: " + appointment.getAppointmentDate() + ", Starts at "
+						+ appointment.getStartTime() + " and Ends at " + appointment.getEndTime());
+			}
+		} catch (SomeThingWentWrongException | NoRecordFoundException ex) {
+			System.out.println(ex.getMessage());
+		}
+
 	}
-	
-	static void cancelAppointment() {
-		
+
+	static void giveFeedback(Scanner sc) {
+		System.out.println("");
+		try {
+			// print booked appointments
+			AppointmentService appSer = new AppointmentServiceImpl();
+			List<Appointment> appList = appSer.viewBookedAppointments();
+			for (Appointment appointment : appList) {
+				System.out.println("Available appointment id: " + appointment.getAppointmentId() + " Date: "
+						+ appointment.getAppointmentDate() + ", Starts at " + appointment.getStartTime()
+						+ " and Ends at " + appointment.getEndTime());
+			}
+
+			System.out.println("Enter the appointment id");
+			Long appId = sc.nextLong();
+			int rating;
+			System.out.println("Enter rating (scoring from 0 to 10)");
+			rating = sc.nextInt();
+			System.out.println("Enter the comment");
+			String cmt = sc.next();
+			sc.nextLine();
+			FeedbackService fb = new FeedbackServiceImpl();
+			fb.giveFeedback(appId, rating, cmt);
+			System.out.println("Feedback send successfully");
+		} catch (SomeThingWentWrongException | NoRecordFoundException ex) {
+			System.out.println(ex.getMessage());
+		}
 	}
 
 }

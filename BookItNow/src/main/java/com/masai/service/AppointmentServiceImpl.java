@@ -45,9 +45,21 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
-	public void bookAppointment(Long appId) throws SomeThingWentWrongException {
+	public void bookAppointment(Long appId) throws SomeThingWentWrongException,NoRecordFoundException {
 		AppointmentDao appDao = new AppointmentDaoImpl();
 		appDao.bookAppointment( appId);	
+	}
+
+	@Override
+	public void cancelAppointment(Long appId) throws SomeThingWentWrongException, NoRecordFoundException {
+		AppointmentDao appDao = new AppointmentDaoImpl();
+		appDao.cancelAppointment( appId);
+	}
+
+	@Override
+	public List<Appointment> viewBookedAppointments() throws SomeThingWentWrongException, NoRecordFoundException {
+		AppointmentDao appDao = new AppointmentDaoImpl();
+		return appDao.viewBookedAppointments();
 	}
 
 }

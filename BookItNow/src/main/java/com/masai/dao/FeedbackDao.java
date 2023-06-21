@@ -1,12 +1,17 @@
 package com.masai.dao;
 
+import java.util.List;
+
+import com.masai.entity.Feedback;
+import com.masai.exception.NoRecordFoundException;
+import com.masai.exception.SomeThingWentWrongException;
+
 public interface FeedbackDao {
+
+	void giveFeedback(Long appId, int rating, String cmt) throws SomeThingWentWrongException, NullPointerException;
+
+	List<Feedback> viewFeedback() throws SomeThingWentWrongException, NoRecordFoundException;
 
 }
 
-//    void create(Feedback feedback);
-//    Feedback getById(int feedbackId);
-//    List<Feedback> getAll();
-//    void update(Feedback feedback);
-//    void delete(Feedback feedback);
 

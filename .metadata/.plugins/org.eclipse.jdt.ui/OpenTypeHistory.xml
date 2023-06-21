@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <typeInfoHistroy>
-    <typeInfo handle="=BookItNow/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.masai.dao{CustomerDao.java[CustomerDao" modifiers="513" timestamp="1687001231366"/>
-    <typeInfo handle="=BookItNow/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.masai.dao{ServiceProviderDao.java[ServiceProviderDao" modifiers="513" timestamp="1687072146063"/>
+    <typeInfo handle="=BookItNow/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.masai.dao{CustomerDao.java[CustomerDao" modifiers="513" timestamp="1687164969736"/>
+    <typeInfo handle="=BookItNow/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.masai.dao{ServiceProviderDao.java[ServiceProviderDao" modifiers="513" timestamp="1687164969736"/>
     <typeInfo handle="=BookItNow/C:\/Users\/ashis\/.m2\/repository\/org\/hibernate\/orm\/hibernate-core\/6.2.4.Final\/hibernate-core-6.2.4.Final.jar=/maven.pomderived=/true=/=/maven.groupId=/org.hibernate.orm=/=/maven.artifactId=/hibernate-core=/=/maven.version=/6.2.4.Final=/=/maven.scope=/compile=/=/maven.pomderived=/true=/&lt;org.hibernate.service.spi(ServiceBinding$ServiceLifecycleOwner.class[ServiceLifecycleOwner" modifiers="1545" timestamp="1686560754119"/>
-    <typeInfo handle="=BookItNow/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.masai.dao{AppointmentDao.java[AppointmentDao" modifiers="513" timestamp="1687067167920"/>
-    <typeInfo handle="=BookItNow/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.masai.dao{FeedbackDao.java[FeedbackDao" modifiers="513" timestamp="1687001368430"/>
-    <typeInfo handle="=BookItNow/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.masai.service{AppointmentService.java[AppointmentService" modifiers="513" timestamp="1687015553674"/>
-    <typeInfo handle="=BookItNow/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.masai.service{FeedbackService.java[FeedbackService" modifiers="513" timestamp="1687001692294"/>
+    <typeInfo handle="=BookItNow/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.masai.dao{AppointmentDao.java[AppointmentDao" modifiers="513" timestamp="1687176817711"/>
+    <typeInfo handle="=BookItNow/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.masai.dao{FeedbackDao.java[FeedbackDao" modifiers="513" timestamp="1687180224535"/>
+    <typeInfo handle="=BookItNow/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.masai.service{AppointmentService.java[AppointmentService" modifiers="513" timestamp="1687178466944"/>
+    <typeInfo handle="=BookItNow/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.masai.service{FeedbackService.java[FeedbackService" modifiers="513" timestamp="1687179763500"/>
 </typeInfoHistroy>

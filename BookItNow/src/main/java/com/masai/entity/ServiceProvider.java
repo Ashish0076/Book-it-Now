@@ -20,8 +20,8 @@ public class ServiceProvider {
 	@Column(name = "provider_id")
 	private Long providerId;
 
-	@Column(name = "name")
-	private String name;
+	@Column(name = "service_name")
+	private String ServiceName;
 
 	@Column(name = "username")
 	private String username;
@@ -32,8 +32,8 @@ public class ServiceProvider {
 	@Column(name = "phone_number")
 	private String phoneNumber;
 
-	@Column(name = "address")
-	private String address;
+	@Column(name = "service_description")
+	private String description;
 
 	@OneToMany(mappedBy = "serviceProvider", fetch = FetchType.EAGER)
 	Set<Appointment> appointments = new HashSet<>();
@@ -43,25 +43,18 @@ public class ServiceProvider {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ServiceProvider(String name, String username, String password, String phoneNumber, String address) {
+	public ServiceProvider(String ServiceName, String username, String password, String phoneNumber,
+			String description) {
 		super();
-		this.name = name;
+		this.ServiceName = ServiceName;
 		this.username = username;
 		this.password = password;
 		this.phoneNumber = phoneNumber;
-		this.address = address;
+		this.description = description;
 	}
 
 	public Long getProviderId() {
 		return providerId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getUsername() {
@@ -88,12 +81,20 @@ public class ServiceProvider {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getServiceName() {
+		return ServiceName;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setServiceName(String serviceName) {
+		ServiceName = serviceName;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public Set<Appointment> getAppointments() {
@@ -106,9 +107,8 @@ public class ServiceProvider {
 
 	@Override
 	public String toString() {
-		return "ServiceProvider [providerId=" + providerId + ", name=" + name + ", username=" + username + ", password="
-				+ password + ", phoneNumber=" + phoneNumber + ", address=" + address + ", appointments=" + appointments
-				+ "]";
+		return "ServiceProvider [providerId=" + providerId + ", ServiceName=" + ServiceName + ", username=" + username
+				+ ", password=" + password + ", phoneNumber=" + phoneNumber + ", description=" + description + "]";
 	}
 
 }

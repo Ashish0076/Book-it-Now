@@ -8,6 +8,10 @@ public class App {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int choice;
+        System.out.println("*******************************");
+        System.out.println("|    Welcome to Book it Now!  |");
+        System.out.println("*******************************");
+        System.out.println();
 
         do {
         	 System.out.println("===============================");

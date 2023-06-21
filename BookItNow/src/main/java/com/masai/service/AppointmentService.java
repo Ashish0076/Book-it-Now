@@ -20,6 +20,10 @@ public interface AppointmentService {
 
 	void deleteAppointmentSlot(Long appId) throws SomeThingWentWrongException, NoRecordFoundException;
 
-	void bookAppointment(Long appId) throws SomeThingWentWrongException;
+	void bookAppointment(Long appId) throws SomeThingWentWrongException, NoRecordFoundException;
+
+	void cancelAppointment(Long appId) throws SomeThingWentWrongException, NoRecordFoundException;
+
+	List<Appointment> viewBookedAppointments() throws SomeThingWentWrongException, NoRecordFoundException;
 
 }
